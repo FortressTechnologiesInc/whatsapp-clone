@@ -1,0 +1,39 @@
+name: Build, Test, Analyze, and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: SonarQube Scan
+        run: |
+          npm install -g sonarqube-scanner
+          sonar-scanner -Dsonar.login=YOUR_SONARQUBE_TOKEN -Dsonar.host.url=YOUR_SONARQUBE_URL
+
+      - name: Build Docker image
+        run: docker build -t limkel/whatzapp -f Dockerfile .
+
+      - name: Push Docker image to Docker Hub
+        run: docker login -u limkel -p YOUR_DOCKER_HUB_PASSWORD && docker push YOUR_DOCKER_HUB_USERNAME/YOUR_DOCKER_IMAGE_NAME
+
+      - name: Run Docker container
+        run: docker run -d --name whatzapp -p 3200:3000 limkel/whatzapp
