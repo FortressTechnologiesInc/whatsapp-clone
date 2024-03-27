@@ -24,11 +24,6 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: SonarQube Scan
-        run: |
-          npm install -g sonarqube-scanner
-          sonar-scanner -Dsonar.login=YOUR_SONARQUBE_TOKEN -Dsonar.host.url=SONAR_HOSTS_URL
-
       - name: Build Docker image
         run: docker build -t limkel/whatzapp -f Dockerfile .
 
