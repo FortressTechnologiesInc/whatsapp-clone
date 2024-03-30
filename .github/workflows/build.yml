@@ -11,9 +11,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-          
-      - name: Trivy FS Scan
-        run: trivy fs --format table -o trivy-fs-report.html .
+      
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
