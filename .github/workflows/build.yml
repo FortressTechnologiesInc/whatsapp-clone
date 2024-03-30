@@ -1,8 +1,8 @@
-name: CICD By DevOps Shack
+name: CICD By Fortress Technologies Inc
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -18,16 +18,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-
-      - name: Build with Maven
-        run: mvn package
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: my-artifact
-          path: target/*.jar
-
+          
       - name: Trivy FS Scan
         run: trivy fs --format table -o trivy-fs-report.html .
 
